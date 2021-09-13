@@ -1,0 +1,1 @@
+<h1>{{$data}} Mail sent Successfully !!</h1>
