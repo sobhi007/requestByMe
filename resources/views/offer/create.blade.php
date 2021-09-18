@@ -1,8 +1,9 @@
-<body style="direction: {{$direction}}">
+<body >
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<body style="direction: {{$direction}}" >
+<body  >
     
 <ul>
     @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
@@ -25,7 +26,7 @@
 @endif
 
 
-<form action="{{route('store')}}" method="POST" enctype="multipart/form-data"
+<form  method="POST" id='offerForm' 
 style="margin-left:auto;margin-right:auto; width:425px;margin-top: 50px;">
    
 <h1>{{__('translate.add new offer')}}</h1>
@@ -41,7 +42,7 @@ style="margin-left:auto;margin-right:auto; width:425px;margin-top: 50px;">
 </div>
 </div>
 
-
+ 
 
 <div>
   <div class="row mb-3">
@@ -96,10 +97,42 @@ style="margin-left:auto;margin-right:auto; width:425px;margin-top: 50px;">
   </div>
   
       
-<button type="submit" class="btn btn-primary">{{__('translate.submit')}}</button>
+<button id="save_offer" type="button" class="btn btn-primary">{{__('translate.submit')}}</button>
 
 
 </form>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script >
+  $(document).on('click','#save_offer',function(){
+    var formData = new FormData($('#offerForm')[0]);
+    $.ajax({
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                url: "{{route('store_offer')}}",
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+     success:function(data){
+
+      if(data.status == true){
+
+         alert(data.msg);
+    }
+
+     },
+     error:function(reject){}
+  
+  });
+  
+  });
+  
+            
+</script>
+ 
+
 
 
 </body>

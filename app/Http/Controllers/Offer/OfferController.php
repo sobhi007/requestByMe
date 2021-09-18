@@ -44,7 +44,7 @@ use OfferTrait;
     public function create()
     {
         // $direction = LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr';
-        // return view('offer.create')->with(['direction' => $direction]);
+         return view('offer.create');
     }
 
     /**
@@ -58,23 +58,37 @@ use OfferTrait;
         
 
       
-//  $file_name=  $this->saveImage($request->photo,'offers');
+ $file_name=  $this->saveImage($request->photo,'offers');
 
 
-//          $op = Offer::Create([
+         $op = Offer::Create([
             
-//             'photo'=>$file_name,
-//             'name_en'=>$request->name_en,
-//             'name_ar'=>$request->name_ar,
-//             'description_en'=>$request->description_en,
-//             'description_ar'=>$request->description_ar,
-//         ]);
+            'photo'=>$file_name,
+            'name_en'=>$request->name_en,
+            'name_ar'=>$request->name_ar,
+            'description_en'=>$request->description_en,
+            'description_ar'=>$request->description_ar,
+        ]);
 
-//        $op ? session()->flash('success', __('translate.offer_a_success'))
-//          : session()->flash('fail', __('translate.offer_a_fail'));
+    //    $op ? session()->flash('success', __('translate.offer_a_success'))
+    //      : session()->flash('fail', __('translate.offer_a_fail'));
 
-//         return redirect('/offer/create');
+    //     return redirect('/offer/create');
 
+
+      if ($op){
+             return response()->json([
+                 'status' => true,
+                 'msg' => 'تم الحفظ بنجاح',
+             ]);
+
+            }else{
+             return response()->json([
+                 'status' => false,
+                 'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
+             ]);
+
+            }
     }
 
 
