@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Providers;
-
+use App\Events\Edit;
+use App\Listeners\EditInc;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +19,13 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        
+            PageVists::class => [
+                PageVistsInc::class,
+            ],
+            Edit::class => [
+                EditInc::class,
+            ],
     ];
 
     /**

@@ -1,15 +1,23 @@
 <?php
 
 namespace App\Http\Controllers\Offer;
-
+use App\Events\PageVists;
+use App\Events\Edit;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OfferRequest;
 use App\Models\Offers\Offer;
 use Illuminate\Http\Request;
 use LaravelLocalization;
+use getClientOriginalExtension;
 
+use Event;
+use App\Traits\OfferTrait;
+use App\Models\Video;
 class OfferController extends Controller
 {
+   
+
+use OfferTrait;
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +29,7 @@ class OfferController extends Controller
             'id',
             "name_" . LaravelLocalization::getCurrentLocale() . " as name",
             "description_" . LaravelLocalization::getCurrentLocale() . " as description",
-        )->get();
+       'viewers')->get();
 
         $direction = LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr';
 
@@ -35,8 +43,8 @@ class OfferController extends Controller
      */
     public function create()
     {
-        $direction = LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr';
-        return view('offer.create')->with(['direction' => $direction]);
+        // $direction = LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr';
+        // return view('offer.create')->with(['direction' => $direction]);
     }
 
     /**
@@ -47,15 +55,43 @@ class OfferController extends Controller
      */
     public function store(OfferRequest $request)
     {
+        
 
-        $op = Offer::Create($request->toArray());
+      
+//  $file_name=  $this->saveImage($request->photo,'offers');
 
-        $op ? session()->flash('success', __('translate.offer_add_success'))
-        : session()->flash('fail', __('translate.offer_add_fail'));
 
-        return redirect('/offer/create');
+//          $op = Offer::Create([
+            
+//             'photo'=>$file_name,
+//             'name_en'=>$request->name_en,
+//             'name_ar'=>$request->name_ar,
+//             'description_en'=>$request->description_en,
+//             'description_ar'=>$request->description_ar,
+//         ]);
+
+//        $op ? session()->flash('success', __('translate.offer_a_success'))
+//          : session()->flash('fail', __('translate.offer_a_fail'));
+
+//         return redirect('/offer/create');
 
     }
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -76,8 +112,13 @@ class OfferController extends Controller
      */
     public function edit($id)
     {
-        $direction = LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr';
+
+
         $data = Offer::where('id', $id)->first();
+
+       event(new Edit($data));
+        $direction = LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr';
+      
         return view('offer.edit')->with(['data' => $data, 'direction' => $direction]);
     }
 
@@ -90,6 +131,11 @@ class OfferController extends Controller
      */
     public function update(OfferRequest $request, $id)
     {
+
+
+
+
+
         $op = Offer::find($id)->update($request->all());
         $op ? session()->flash('success', __('translate.offer_update_success'))
         : session()->flash('fail', __('translate.offer_update_fail'));
@@ -104,6 +150,17 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+    public function getVideo()
+    {
+        $data = Video::first();
+        event(new PageVists($data));
+
+        echo $data->views;
+    }
+
+
     public function destroy($id)
     {
         //

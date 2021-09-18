@@ -23,5 +23,7 @@ return [
     'control'=>'Control',
     'edit offer'=>'Edit offer',
     'offer_update_success'=>'Offer updated successfully',
-    'offer_update_fail'=>'Failed to update this offer'
+    'choose image'=>'Choose a picture',
+    'viewers'=>"Viewers"
+
 ];

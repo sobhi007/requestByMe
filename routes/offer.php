@@ -19,9 +19,13 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
         Route::get('', 'Offer\OfferController@index');
         Route::get('/create', 'Offer\OfferController@create');
-        Route::get('/store', 'Offer\OfferController@store');
+        Route::post('/store', 'Offer\OfferController@store')->name('store');
         Route::get('/edit/{id}', 'Offer\OfferController@edit');
         Route::get('/update/{id}', 'Offer\OfferController@update');
+        Route::get('/video', 'Offer\OfferController@getVideo');
 
     });
  });
+
+
+ ###################################ajax offer##############################################
