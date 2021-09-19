@@ -23,6 +23,7 @@ return [
     'offer_update_success' => 'تم التعديل بنجاح ',
     'offer_update_fail' => 'لم يتم التعديل ',
     'choose image'=>'اختر صورة',
-    'viewers'=>"المشاهدات"
+    'viewers'=>"المشاهدات",
+    'photo'=>"صورة"
 
 ];

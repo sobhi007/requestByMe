@@ -9,7 +9,6 @@ use App\Models\Offers\Offer;
 use Illuminate\Http\Request;
 use LaravelLocalization;
 use getClientOriginalExtension;
-
 use Event;
 use App\Traits\OfferTrait;
 use App\Models\Video;
@@ -25,15 +24,17 @@ use OfferTrait;
      */
     public function index()
     {
+       
         $op = Offer::select(
             'id',
+            'photo',
             "name_" . LaravelLocalization::getCurrentLocale() . " as name",
             "description_" . LaravelLocalization::getCurrentLocale() . " as description",
-       'viewers')->get();
+             'viewers')->get();
 
         $direction = LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr';
 
-        return view('offer.index', ['offers' => $op, 'direction' => $direction]);
+        return view('ajaxoffers.index', ['offers' => $op, 'direction' => $direction]);
     }
 
     /**
@@ -44,7 +45,7 @@ use OfferTrait;
     public function create()
     {
         // $direction = LaravelLocalization::getCurrentLocale() == 'ar' ? 'rtl' : 'ltr';
-         return view('offer.create');
+         return view('ajaxoffers.create');
     }
 
     /**
@@ -95,12 +96,57 @@ use OfferTrait;
 
 
 
+public function deleteOffer(Request $request)
+{
 
+   $op = Offer::where('id',$request->id)->delete();
+
+
+
+   if ($op){
+     return response()->json([
+         'status' => true,
+         'msg' => 'تم المسح بنجاح',
+         'data' => $request->id
+     ]);
+
+    }else{
+     return response()->json([
+         'status' => false,
+         'msg' => 'فشل',
+     ]);
+
+    }
+
+
+}
     
+public function editOffer($id)
+{
+   $data=  Offer::where('id',$id)->first();
+    return view('ajaxOffers.edit',['data'=>$data]);
+}
 
 
+public function updateOffer(Request $request)
+    {
+        
+           $op = Offer::find($request->id)->update($request->all());
+    
+           if ($op){
+            return response()->json([
+                'status' => true,
+                'msg' => 'تم الحفظ بنجاح',
+            ]);
 
+        }else{
+            return response()->json([
+                'status' => false,
+                'msg' => 'فشل الحفظ برجاء المحاوله مجددا',
+            ]);
+}
 
+    }
 
 
 
@@ -180,3 +226,5 @@ use OfferTrait;
         //
     }
 }
+
+

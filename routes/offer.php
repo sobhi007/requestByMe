@@ -31,6 +31,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
 Route::prefix('ajax-offers')->group(function () {
 
-    Route::get('create', 'Offer\OfferController@create');
+    Route::get('/create', 'Offer\OfferController@create');
     Route::post('/store', 'Offer\OfferController@store')->name('store_offer');
+    Route::get('/all', 'Offer\OfferController@index')->name('all');
+    Route::post('/delete', 'Offer\OfferController@deleteOffer')->name('delete');
+    Route::get('/edit/{id}', 'Offer\OfferController@editOffer');
+    Route::post('/update',  'Offer\OfferController@updateOffer');
 });

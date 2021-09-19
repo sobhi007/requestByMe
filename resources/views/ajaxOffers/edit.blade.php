@@ -23,7 +23,7 @@
 
 @endif
 
-<body style="direction: {{$direction}}">
+<body >
   @if (session()->get('success'))
 
 <span style="color:green">{{session()->get('success')}}</span>   
@@ -35,14 +35,14 @@
 
 @endif
 
-<form action="{{url('offer/update/'.$data->id)}}" method="get" style="margin-left:auto;margin-right:auto; width:425px;margin-top: 50px;">
+<form action="" id="offerForm" method="POST" style="margin-left:auto;margin-right:auto; width:425px;margin-top: 50px;">
    
 <h1>{{__('translate.edit offer')}}</h1>
 <br>
 @csrf
 
 
-
+<input type="text" name="id"  value="{{$data->id}}" id="" style="display:none">
 
 <div>
   <div class="row mb-3">
@@ -97,7 +97,37 @@
   </div>
   
       
-<button type="submit" class="btn btn-primary">{{__('translate.submit')}}</button>
+<button type="button" id="update_offer" class="btn btn-primary">{{__('translate.submit')}}</button>
 
 
 </form>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script >
+  $(document).on('click','#update_offer',function(){
+    var formData = new FormData($('#offerForm')[0]);
+    $.ajax({
+               type: 'post',
+               
+		
+               url: "{{url('ajax-offers/update')}}",
+               data: formData,
+		
+               processData: false,
+               contentType: false,
+               cache: false,
+    	      success:function(data){
+
+
+            },
+     		error:function(reject){
+
+
+           
+         }
+  });
+ 
+  });
+      
+</script>

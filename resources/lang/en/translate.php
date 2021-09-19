@@ -24,6 +24,7 @@ return [
     'edit offer'=>'Edit offer',
     'offer_update_success'=>'Offer updated successfully',
     'choose image'=>'Choose a picture',
-    'viewers'=>"Viewers"
+    'viewers'=>"Viewers",
+    'photo'=>"Photo"
 
 ];
